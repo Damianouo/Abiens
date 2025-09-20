@@ -1,0 +1,42 @@
+@import "tailwindcss";
+@plugin "daisyui" {
+  /* exclude: rootscrollgutter; */
+}
+@plugin "daisyui/theme" {
+  name: night;
+  default: true;
+
+  --color-base-100: oklch(13% 0.028 272);
+  --color-base-200: oklch(21% 0.034 278);
+  --color-base-300: oklch(27% 0.033 273);
+  --color-neutral: oklch(39% 0.032 275);
+  --color-neutral-content: oklch(88% 0.006 275);
+}
+
+@theme {
+  --default-font-family: "Comfortaa", sans-serif;
+  --default-transition-duration: 250ms;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  h1,
+  h2,
+  h3 {
+    @apply font-bold;
+  }
+}
+
+@layer components {
+  .icon {
+    @apply size-6;
+  }
+  .navlink {
+    @apply [&.active]:font-bold;
+  }
+}
+
+@layer utilities {
+}
