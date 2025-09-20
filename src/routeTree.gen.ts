@@ -9,18 +9,14 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as MoneyLoveRouteImport } from './routes/money-love'
-import { Route as MerchRouteImport } from './routes/merch'
+import { Route as AppRouteRouteImport } from './routes/app/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AppMoneyLoveRouteImport } from './routes/app/money-love'
+import { Route as AppMerchRouteImport } from './routes/app/merch'
 
-const MoneyLoveRoute = MoneyLoveRouteImport.update({
-  id: '/money-love',
-  path: '/money-love',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const MerchRoute = MerchRouteImport.update({
-  id: '/merch',
-  path: '/merch',
+const AppRouteRoute = AppRouteRouteImport.update({
+  id: '/app',
+  path: '/app',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -28,51 +24,56 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AppMoneyLoveRoute = AppMoneyLoveRouteImport.update({
+  id: '/money-love',
+  path: '/money-love',
+  getParentRoute: () => AppRouteRoute,
+} as any)
+const AppMerchRoute = AppMerchRouteImport.update({
+  id: '/merch',
+  path: '/merch',
+  getParentRoute: () => AppRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/merch': typeof MerchRoute
-  '/money-love': typeof MoneyLoveRoute
+  '/app': typeof AppRouteRouteWithChildren
+  '/app/merch': typeof AppMerchRoute
+  '/app/money-love': typeof AppMoneyLoveRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/merch': typeof MerchRoute
-  '/money-love': typeof MoneyLoveRoute
+  '/app': typeof AppRouteRouteWithChildren
+  '/app/merch': typeof AppMerchRoute
+  '/app/money-love': typeof AppMoneyLoveRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/merch': typeof MerchRoute
-  '/money-love': typeof MoneyLoveRoute
+  '/app': typeof AppRouteRouteWithChildren
+  '/app/merch': typeof AppMerchRoute
+  '/app/money-love': typeof AppMoneyLoveRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/merch' | '/money-love'
+  fullPaths: '/' | '/app' | '/app/merch' | '/app/money-love'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/merch' | '/money-love'
-  id: '__root__' | '/' | '/merch' | '/money-love'
+  to: '/' | '/app' | '/app/merch' | '/app/money-love'
+  id: '__root__' | '/' | '/app' | '/app/merch' | '/app/money-love'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  MerchRoute: typeof MerchRoute
-  MoneyLoveRoute: typeof MoneyLoveRoute
+  AppRouteRoute: typeof AppRouteRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/money-love': {
-      id: '/money-love'
-      path: '/money-love'
-      fullPath: '/money-love'
-      preLoaderRoute: typeof MoneyLoveRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/merch': {
-      id: '/merch'
-      path: '/merch'
-      fullPath: '/merch'
-      preLoaderRoute: typeof MerchRouteImport
+    '/app': {
+      id: '/app'
+      path: '/app'
+      fullPath: '/app'
+      preLoaderRoute: typeof AppRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -82,13 +83,40 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/app/money-love': {
+      id: '/app/money-love'
+      path: '/money-love'
+      fullPath: '/app/money-love'
+      preLoaderRoute: typeof AppMoneyLoveRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
+    '/app/merch': {
+      id: '/app/merch'
+      path: '/merch'
+      fullPath: '/app/merch'
+      preLoaderRoute: typeof AppMerchRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
   }
 }
 
+interface AppRouteRouteChildren {
+  AppMerchRoute: typeof AppMerchRoute
+  AppMoneyLoveRoute: typeof AppMoneyLoveRoute
+}
+
+const AppRouteRouteChildren: AppRouteRouteChildren = {
+  AppMerchRoute: AppMerchRoute,
+  AppMoneyLoveRoute: AppMoneyLoveRoute,
+}
+
+const AppRouteRouteWithChildren = AppRouteRoute._addFileChildren(
+  AppRouteRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  MerchRoute: MerchRoute,
-  MoneyLoveRoute: MoneyLoveRoute,
+  AppRouteRoute: AppRouteRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
