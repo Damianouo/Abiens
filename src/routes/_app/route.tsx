@@ -10,10 +10,10 @@ function AppLayoutRoute() {
   return (
     <div className="h-screen">
       <div className="mx-auto flex h-screen w-full max-w-[1300px] flex-col">
-        <header>
+        <header className="px-8 py-12">
           <Navbar />
         </header>
-        <main className="grid flex-1 grid-rows-[1fr_auto] overflow-y-auto px-4">
+        <main className="grid flex-1 grid-rows-[1fr_auto] overflow-y-auto px-8">
           <Outlet />
           <footer className="py-4 text-center">© 2025 Abiens</footer>
         </main>

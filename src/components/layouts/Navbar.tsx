@@ -1,6 +1,15 @@
 import { Link } from "@tanstack/react-router";
 import sprattUrl from "@/assets/images/spratt.jpg";
-import { Youtube, Instagram, Twitch } from "../icons";
+import {
+  Youtube,
+  Instagram,
+  Twitch,
+  Menu,
+  Home,
+  HandCoins,
+  Shirt,
+} from "../icons";
+import { useState } from "react";
 
 interface Social {
   brand: string;
@@ -31,8 +40,10 @@ const socialsMap: Social[] = [
 ];
 
 const Navbar = () => {
+  const [menuOpen, setMenuOpen] = useState(false);
   return (
-    <nav className="flex items-center justify-between gap-4 py-6">
+    <nav className="flex items-start justify-between gap-4">
+      {/* user info */}
       <div>
         {/* avatar */}
         <div className="flex items-center gap-4">
@@ -61,7 +72,9 @@ const Navbar = () => {
           ))}
         </div>
       </div>
-      <div className="flex items-center gap-4">
+
+      {/* route links */}
+      <div className="hidden items-center gap-4 md:flex">
         <Link to="/" className="navlink">
           Home
         </Link>
@@ -72,7 +85,44 @@ const Navbar = () => {
           Merch
         </Link>
       </div>
-      <div className="flex items-center gap-4"></div>
+
+      {/* menu */}
+      <div className="flex items-center gap-4">
+        <div className="relative block md:hidden">
+          <button
+            className="btn btn-ghost p-2"
+            onClick={() => setMenuOpen(!menuOpen)}
+          >
+            <Menu />
+          </button>
+          {menuOpen && (
+            <ul className="menu bg-base-200 rounded-box absolute top-full right-0 w-56">
+              <li>
+                <Link to="/" className="flex items-center gap-4 font-bold">
+                  <Home className="size-5" size={20} />
+                  Home
+                </Link>
+              </li>
+              <li>
+                <Link to="/merch" className="flex items-center gap-4 font-bold">
+                  <HandCoins className="size-5" size={20} />
+                  Money Love
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/money-love"
+                  className="flex items-center gap-4 font-bold"
+                >
+                  <Shirt className="size-5" size={20} />
+                  Merch
+                </Link>
+              </li>
+            </ul>
+          )}
+        </div>
+        <button className="btn btn-ghost p-2">Log in</button>
+      </div>
     </nav>
   );
 };

@@ -34,7 +34,7 @@
     @apply size-6;
   }
   .navlink {
-    @apply [&.active]:font-bold;
+    @apply text-base-content/80 [&.active]:text-base-content transition [&.active]:font-bold;
   }
 }
 
